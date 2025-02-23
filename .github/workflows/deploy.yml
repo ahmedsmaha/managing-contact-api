@@ -1,0 +1,37 @@
+name: Deploy TypeScript Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23.7.0
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Set Environment Variables
+        run: |
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+          echo "PORT=${{ secrets.PORT }}" >> $GITHUB_ENV
+
+      - name: Deploy
+        run: |
+          echo "Deploying..."
+          # Add your deployment commands here
