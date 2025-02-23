@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ContactRoutes = void 0;
+const express_1 = require("express");
+const contact_controller_1 = require("../controllers/contact.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const router = (0, express_1.Router)();
+exports.ContactRoutes = router;
+router.post("/", auth_middleware_1.AuthMiddleware.authenticate, contact_controller_1.ContactController.create);
+router.get("/", auth_middleware_1.AuthMiddleware.authenticate, contact_controller_1.ContactController.list);
+router.put("/:id", auth_middleware_1.AuthMiddleware.authenticate, contact_controller_1.ContactController.update);
+router.delete("/:id", auth_middleware_1.AuthMiddleware.authenticate, contact_controller_1.ContactController.delete);
